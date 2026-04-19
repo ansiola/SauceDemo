@@ -59,8 +59,8 @@ public class SauceDemoLocator {
         // 2. поиск по тексту
         By.xpath("//div[text()='Swag Labs']");
         By.xpath("//h3[text()='Epic sadface: Username is required']");
-        
-       // 3. поиск по частичному совпадению атрибута
+
+        // 3. поиск по частичному совпадению атрибута
         By.xpath("//input[contains(@data-test, 'login')]");
         By.xpath("//input[contains(@placeholder, 'user')]");
 
@@ -140,7 +140,7 @@ public class SauceDemoLocator {
         // 12. [attribute*=value] (содержит подстроку)
         By.cssSelector("[id*='user']");
         By.cssSelector("[id*='pass']");
-        
+
         driver.quit();  //
     }
 }
