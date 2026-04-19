@@ -141,6 +141,6 @@ public class SauceDemoLocator {
         By.cssSelector("[id*='user']");
         By.cssSelector("[id*='pass']");
         
-        driver.quit();
+        driver.quit();  //
     }
 }

@@ -35,6 +35,6 @@ public class SauceDemoTest {
 
         System.out.println(" Тест пройден! Товар: " + actualName + " (" + actualPrice + ")");
 
-        driver.quit();
+        driver.quit();  //
     }
 }
