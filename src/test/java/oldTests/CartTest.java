@@ -1,3 +1,5 @@
+package oldTests;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -5,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class SauceDemoTests {
+public class CartTest {
     @Test
     public void testAddProductToCart() throws Exception {
         ChromeOptions options = new ChromeOptions();
