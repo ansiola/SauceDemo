@@ -1,6 +1,5 @@
 package tests;
-
-import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 import org.testng.annotations.Test;
 
 public class ProductTest extends BaseTest {
@@ -10,27 +9,33 @@ public class ProductTest extends BaseTest {
 
     @Test
     public void testAddProductToCart() {
+        SoftAssert softAssert = new SoftAssert();
         loginPage.open();
         loginPage.login(USERNAME, PASSWORD);
 
         String productName = productPage.getFirstProductName();
         productPage.addFirstProductToCart();
 
-        Assert.assertEquals(productPage.getCartBadgeCount(), "1");
+        softAssert.assertEquals(productPage.getCartBadgeCount(), "1");
 
         productPage.openCart();
-        Assert.assertEquals(cartPage.getFirstItemName(), productName);
+        softAssert.assertEquals(cartPage.getFirstItemName(), productName);
+
+        softAssert.assertAll();
     }
 
     @Test
     public void testCartBadgeUpdates() {
+        SoftAssert softAssert = new SoftAssert();
         loginPage.open();
         loginPage.login(USERNAME, PASSWORD);
 
         productPage.addProductToCartByIndex(0);
-        Assert.assertEquals(productPage.getCartBadgeCount(), "1");
+        softAssert.assertEquals(productPage.getCartBadgeCount(), "1");
 
         productPage.addProductToCartByIndex(1);
-        Assert.assertEquals(productPage.getCartBadgeCount(), "2");
+        softAssert.assertEquals(productPage.getCartBadgeCount(), "2");
+
+        softAssert.assertAll();
     }
 }

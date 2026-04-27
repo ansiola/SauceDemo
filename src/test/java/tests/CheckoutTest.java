@@ -2,6 +2,7 @@ package tests;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class CheckoutTest extends BaseTest {
 
@@ -75,6 +76,7 @@ public class CheckoutTest extends BaseTest {
 
     @Test
     public void testBackHomeAfterCheckout() {
+        SoftAssert softAssert = new SoftAssert();
         loginAndAddProduct();
 
         checkoutPage.fillCheckoutInformation(FIRST_NAME, LAST_NAME, POSTAL_CODE);
@@ -83,7 +85,9 @@ public class CheckoutTest extends BaseTest {
         checkoutPage.backHome();
 
         // Проверяю, что вернулись на главную страницу товаров
-        Assert.assertTrue(driver.getCurrentUrl().contains("inventory.html"));
-        Assert.assertEquals(productPage.getTitle(), "Products");
+        softAssert.assertTrue(driver.getCurrentUrl().contains("inventory.html"));
+        softAssert.assertEquals(productPage.getTitle(), "Products");
+
+        softAssert.assertAll();
     }
 }
