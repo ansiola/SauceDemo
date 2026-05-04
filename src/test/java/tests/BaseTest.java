@@ -2,7 +2,10 @@ package tests;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
-import pages.*;
+import pages.CartPage;
+import pages.CheckoutPage;
+import pages.LoginPage;
+import pages.ProductPage;
 import utils.AnnotationTransformer;
 import utils.DriverManager;
 
