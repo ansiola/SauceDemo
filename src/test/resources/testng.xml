@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="SauceDemo Test Suite" verbose="1" parallel="tests" thread-count="2">
+
+    <!-- Подключение  для Retry -->
+    <listeners>
+        <listener class-name="utils.AnnotationTransformer"/>
+    </listeners>
+
+    <!-- Запуск на Chrome -->
+    <test name="Chrome Tests - Все тесты">
+        <parameter name="browser" value="chrome"/>
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="negative"/>
+                <include name="cart"/>
+                <include name="checkout"/>
+                <include name="login"/>
+                <include name="product"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="tests.*"/>
+        </packages>
+    </test>
+
+    <!-- Запуск на Firefox -->
+    <test name="Firefox Tests - Все тесты">
+        <parameter name="browser" value="firefox"/>
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="negative"/>
+                <include name="cart"/>
+                <include name="checkout"/>
+                <include name="login"/>
+                <include name="product"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="tests.*"/>
+        </packages>
+    </test>
+</suite>

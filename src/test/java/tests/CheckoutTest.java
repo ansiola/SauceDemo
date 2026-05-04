@@ -20,74 +20,71 @@ public class CheckoutTest extends BaseTest {
         cartPage.proceedToCheckout();
     }
 
-    @Test
+    @Test(groups = {"checkout", "smoke"},
+            testName = "Оформление заказа",
+            description = "Полный позитивный сценарий оформления заказа",
+            priority = 1)
     public void testCompleteCheckoutProcess() {
         loginAndAddProduct();
-
         checkoutPage.fillCheckoutInformation(FIRST_NAME, LAST_NAME, POSTAL_CODE);
         checkoutPage.clickContinue();
         checkoutPage.clickFinish();
-
         Assert.assertEquals(checkoutPage.getCompleteMessage(), "Thank you for your order!");
     }
 
-    @Test
+    @Test(groups = {"checkout", "negative"},
+            testName = "Оформление с пустым именем",
+            description = "Негативный сценарий: Оформление с пустым именем",
+            priority = 2)
     public void testCheckoutWithEmptyFirstName() {
         loginAndAddProduct();
-
         checkoutPage.fillCheckoutInformation("", LAST_NAME, POSTAL_CODE);
         checkoutPage.clickContinue();
-
-        Assert.assertEquals(checkoutPage.getCheckoutErrorMessage(),
-                "Error: First Name is required");
+        Assert.assertEquals(checkoutPage.getCheckoutErrorMessage(), "Error: First Name is required");
     }
 
-    @Test
+    @Test(groups = {"checkout", "negative"},
+            testName = "Оформление с пустой фамилией",
+            description = "Негативный сценарий: Оформление с пустой фамилией",
+            priority = 2)
     public void testCheckoutWithEmptyLastName() {
         loginAndAddProduct();
-
         checkoutPage.fillCheckoutInformation(FIRST_NAME, "", POSTAL_CODE);
         checkoutPage.clickContinue();
-
-        Assert.assertEquals(checkoutPage.getCheckoutErrorMessage(),
-                "Error: Last Name is required");
+        Assert.assertEquals(checkoutPage.getCheckoutErrorMessage(), "Error: Last Name is required");
     }
 
-    @Test
+    @Test(groups = {"checkout", "negative"},
+            testName = "Оформление с пустым индексом",
+            description = "Негативный сценарий: Оформление с пустым индексом",
+            priority = 2)
     public void testCheckoutWithEmptyPostalCode() {
         loginAndAddProduct();
-
         checkoutPage.fillCheckoutInformation(FIRST_NAME, LAST_NAME, "");
         checkoutPage.clickContinue();
-
-        Assert.assertEquals(checkoutPage.getCheckoutErrorMessage(),
-                "Error: Postal Code is required");
+        Assert.assertEquals(checkoutPage.getCheckoutErrorMessage(), "Error: Postal Code is required");
     }
 
-    @Test
+    @Test(groups = {"checkout"},
+            testName = "Отмена заказа",
+            description = "Отмена оформления заказа",
+            priority = 3)
     public void testCancelCheckout() {
         loginAndAddProduct();
-
         checkoutPage.clickCancel();
-
-        // Должны вернуться на страницу корзины
         Assert.assertTrue(driver.getCurrentUrl().contains("cart.html"));
     }
 
-    @Test
+    @Test(groups = {"checkout"}, description = "Возврат на главную после оформления", priority = 4)
     public void testBackHomeAfterCheckout() {
         SoftAssert softAssert = new SoftAssert();
         loginAndAddProduct();
-
         checkoutPage.fillCheckoutInformation(FIRST_NAME, LAST_NAME, POSTAL_CODE);
         checkoutPage.clickContinue();
         checkoutPage.clickFinish();
         checkoutPage.backHome();
-
-        // Проверяю, что вернулись на главную страницу товаров
         softAssert.assertTrue(driver.getCurrentUrl().contains("inventory.html"));
         softAssert.assertEquals(productPage.getTitle(), "Products");
-
         softAssert.assertAll();
     }
 }
