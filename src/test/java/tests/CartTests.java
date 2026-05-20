@@ -1,8 +1,12 @@
 package tests;
 
+import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.CartPage;
+import pages.ProductPage;
 
+@Slf4j
 public class CartTests extends BaseTest {
 
     private final String USERNAME = "standard_user";
@@ -12,24 +16,46 @@ public class CartTests extends BaseTest {
             testName = "Добавление и удаление товара из корзины",
             description = "Добавление и удаление товара из корзины",
             priority = 1)
-    public void testAddAndRemoveItemFromCart() throws InterruptedException {
-        loginPage.open();
-        loginPage.login(USERNAME, PASSWORD);
+    public void testAddAndRemoveItemFromCart() {
+        log.info("Starting cart test: add and remove item");
 
-        Thread.sleep(100);
-        String productName = productPage.getFirstProductName();
+        // Вариант 1: Используем loginSuccess() который возвращает ProductPage
+        String productName = loginPage
+                .open()
+                .loginSuccess(USERNAME, PASSWORD)
+                .getFirstProductName();
 
-        productPage.addFirstProductToCart();
-        Thread.sleep(100);
-        Assert.assertEquals(productPage.getCartBadgeCount(), "1");
+        log.info("Selected product: {}", productName);
 
-        productPage.openCart();
-        Thread.sleep(100);
+        CartPage cartPage = productPage
+                .addFirstProductToCart()
+                .openCart();
+
         Assert.assertEquals(cartPage.getCartItemsCount(), 1);
         Assert.assertEquals(cartPage.getFirstItemName(), productName);
 
         cartPage.removeFirstItem();
-        Thread.sleep(100);
         Assert.assertEquals(cartPage.getCartItemsCount(), 0);
+
+        log.info("Cart test completed successfully");
+    }
+
+    @Test(groups = {"cart"},
+            testName = "Проверка возможности продолжения покупок",
+            description = "Возврат из корзины на страницу товаров",
+            priority = 2)
+    public void testContinueShopping() {
+        log.info("Starting continue shopping test");
+
+        // Вариант 1: Используем loginSuccess()
+        ProductPage productPageAfterReturn = loginPage
+                .open()
+                .loginSuccess(USERNAME, PASSWORD)
+                .addFirstProductToCart()
+                .openCart()
+                .continueShopping();
+
+        Assert.assertEquals(productPageAfterReturn.getTitle(), "Products");
+        log.info("Continue shopping test completed");
     }
 }
